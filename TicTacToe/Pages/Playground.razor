@@ -1,0 +1,61 @@
+﻿@page "/playground"
+@inject IRivalService rival;
+@inject IGameService gameService;
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <button class="button-option" @onclick="@(() => BtnOnClick(0))">@Fields[0]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(1))">@Fields[1]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(2))">@Fields[2]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(3))">@Fields[3]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(4))">@Fields[4]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(5))">@Fields[5]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(6))">@Fields[6]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(7))">@Fields[7]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(8))">@Fields[8]</button>
+        </div>
+        <button id="restart">Restart</button>
+    </div>
+    <div>
+        
+    </div>
+    <div class="popup hide">
+        <p id="message">Sample Message</p>
+        <button id="new-game">New Game</button>
+    </div>
+</body>
+
+@code {
+    private Dictionary<int, char> Fields { get; set; }
+    private string Winner { get; set; } = "";
+
+    protected override Task OnInitializedAsync()
+    {
+        Fields = new Dictionary<int, char>();
+
+        for (int i = 0; i < 9; i++)
+        {
+            Fields.Add(i, ' ');
+        }
+        return base.OnInitializedAsync();
+    }
+
+    void BtnOnClick(int index)
+    {
+        if (Fields is null) return;
+
+        if (Fields[index] == ' ') Fields[index] = 'X';
+
+        Fields = rival.MakeMove(Fields);
+
+        if(rival.CountEmptyFields(Fields) == 0)
+        {
+            gameService.HwoIsWinner(Fields, "Player", "Computer");
+        }
+    }
+}

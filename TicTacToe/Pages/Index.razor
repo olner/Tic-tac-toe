@@ -1,0 +1,17 @@
+﻿@page "/"
+@inject NavigationManager NavigationManager
+
+<body>
+    <div class="content">
+        <button class="btn startButton" @onclick="RedirectToPlayground">
+            Start
+        </button>
+    </div>
+</body>
+
+@code {
+    void RedirectToPlayground()
+    {
+        NavigationManager.NavigateTo("/playground");
+    }
+}
