@@ -7,22 +7,24 @@
 </head>
 
 <body>
+    <h2>
+        @Winner
+    </h2>
     <div class="wrapper">
         <div class="container">
-            <button class="button-option" @onclick="@(() => BtnOnClick(0))">@Fields[0]</button>
-            <button class="button-option" @onclick="@(() => BtnOnClick(1))">@Fields[1]</button>
-            <button class="button-option" @onclick="@(() => BtnOnClick(2))">@Fields[2]</button>
-            <button class="button-option" @onclick="@(() => BtnOnClick(3))">@Fields[3]</button>
-            <button class="button-option" @onclick="@(() => BtnOnClick(4))">@Fields[4]</button>
-            <button class="button-option" @onclick="@(() => BtnOnClick(5))">@Fields[5]</button>
-            <button class="button-option" @onclick="@(() => BtnOnClick(6))">@Fields[6]</button>
-            <button class="button-option" @onclick="@(() => BtnOnClick(7))">@Fields[7]</button>
-            <button class="button-option" @onclick="@(() => BtnOnClick(8))">@Fields[8]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(0))">@Field[0]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(1))">@Field[1]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(2))">@Field[2]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(3))">@Field[3]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(4))">@Field[4]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(5))">@Field[5]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(6))">@Field[6]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(7))">@Field[7]</button>
+            <button class="button-option" @onclick="@(() => BtnOnClick(8))">@Field[8]</button>
         </div>
-        <button id="restart">Restart</button>
+        <button id="restart" @onclick="Restart">Restart</button>
     </div>
     <div>
-        
     </div>
     <div class="popup hide">
         <p id="message">Sample Message</p>
@@ -31,7 +33,7 @@
 </body>
 
 @code {
-    private Dictionary<int, char> Fields { get; set; }
+    private Dictionary<int, char> Field { get; set; }
     private string Winner { get; set; } = "";
     private GameStatus CurrentGameStatus { get; set; } = GameStatus.Continues;
 
@@ -39,32 +41,50 @@
 
     protected override Task OnInitializedAsync()
     {
-        Fields = new Dictionary<int, char>();
+        SetField();
 
-        for (int i = 0; i < 9; i++)
-        {
-            Fields.Add(i, ' ');
-        }
         return base.OnInitializedAsync();
     }
 
-    void BtnOnClick(int index)
+    private void BtnOnClick(int index)
     {
-        if (Fields is null) throw new NullReferenceException("Field is null exception");
+        if (Field is null) throw new NullReferenceException("Field is null exception");
 
-        var tmpFields = new Dictionary<int, char>(Fields);
+        var tmpFields = new Dictionary<int, char>(Field);
 
-        if (Fields[index] == ' ' && CurrentGameStatus == GameStatus.Continues) Fields[index] = 'X';
+        if (Field[index] == ' ' && CurrentGameStatus == GameStatus.Continues) Field[index] = 'X';
         CheckWinner();
 
-        if (CurrentGameStatus == GameStatus.Continues & 
-            (Fields.Where(x => x.Value == 'X').Count() > Fields.Where(x => x.Value == 'O').Count())) rival.MakeMove(Fields);
+        if (CurrentGameStatus == GameStatus.Continues &
+            (Field.Where(x => x.Value == 'X').Count() > Field.Where(x => x.Value == 'O').Count())) rival.MakeMove(Field);
         CheckWinner();
     }
+
     private void CheckWinner()
     {
-        Winner = gameService.HwoIsWinner(Fields, "Player", "Computer");
+        var result = gameService.HwoIsWinner(Field, "Player", "Computer");
 
-        if (Winner == "Player" || Winner == "Computer" || rival.CountEmptyFields(Fields) == 0) CurrentGameStatus = GameStatus.Ended;
+        if (result == "Player" || result == "Computer" || rival.CountEmptyFields(Field) == 0) 
+        { 
+            CurrentGameStatus = GameStatus.Ended;
+            Winner = "Winner - " + result;
+        }
+    }
+
+    private void Restart()
+    {
+        SetField();
+        Winner = "";
+        CurrentGameStatus = GameStatus.Continues;
+    }
+
+    private void SetField()
+    {
+        Field = new Dictionary<int, char>();
+
+        for (int i = 0; i < 9; i++)
+        {
+            Field.Add(i, ' ');
+        }
     }
 }
