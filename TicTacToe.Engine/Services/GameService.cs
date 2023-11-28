@@ -18,7 +18,7 @@ namespace TicTacToe.Engine.Services
                 if (i % 3 == 0) stringField += " ";
             }
 
-            var winner = GetGameResult(CreateFromString(stringField));
+            var winner = GetGameResult(field);
 
             switch (winner)
             {
@@ -33,78 +33,78 @@ namespace TicTacToe.Engine.Services
             throw new Exception("WhoISWinner exception");
         }
 
-        public static Mark[,] CreateFromString(string description)
+        public bool RowWinSequence(Dictionary<int, char> field, char mark)
         {
-            var charMarkDictionary = new Dictionary<char, Mark>
+            var markCount = 0;
+            for (int i = 0; i < field.Count; i++)
             {
-                ['X'] = Mark.Cross,
-                ['O'] = Mark.Circle,
-                [' '] = Mark.Empty
-            };
+                if (i == 0 & field[0] != ' ')
+                {
+                    markCount++;
+                    continue;
+                }
 
-            int width = description.IndexOf(' ');
-            description = description.Replace(" ", "");
-            int height = description.Length / width;
+                if (field[i - 1] != field[i]) markCount = 1;
+                else if (field[i] != ' ') markCount++;
 
-            var field = new Mark[height, width];
+                if (markCount == 3 && field[i] == mark) return true;
 
-            for (int i = 0; i < description.Length; i++)
-                field[i / width, i % width] = charMarkDictionary[description[i]];
-
-            return field;
-        }
-
-        public static IList<Mark> EnumerateValues(Mark[,] field, Point start, Size delta)
-        {
-            var values = new List<Mark>();
-
-            int width = field.GetLength(1);
-            int height = field.GetLength(0);
-
-            while (start.X >= 0 && start.Y >= 0 && start.X < width && start.Y < height)
-            {
-                values.Add(field[start.Y, start.X]);
-                start = Point.Add(start, delta);
+                if ((i + 1) % 3 == 0) markCount = 0;
             }
 
-            return values;
+            return false;
         }
 
-        public static bool RowWinSequence(Mark[,] field, Mark mark)
+        public bool ColumnWinSequence(Dictionary<int, char> field, char mark)
         {
-            for (int y = 0; y < field.GetLength(0); y++)
-                if (EnumerateValues(field, new Point(0, y), new Size(1, 0)).All(v => v == mark))
-                    return true;
+            var markCount = 0;
+            var column = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (j == 0 && field[i] != ' ')
+                    {
+                        markCount++;
+                        column++;
+                        continue;
+                    }
+
+                    if (field[i + (3 * column)] != field[i])
+                    {
+                        markCount = 0;
+                    }
+                    else if (field[i + (3 * column)] == field[i]) markCount++;
+                    column++;
+                }
+
+                if (markCount == 3 && field[i] == mark) return true;
+
+                markCount = 0;
+                column = 0;
+            }
 
             return false;
         }
 
-        public static bool ColumnWinSequence(Mark[,] field, Mark mark)
+        public bool DiagonalWinSequence(Dictionary<int, char> field, char mark)
         {
-            for (int x = 0; x < field.GetLength(1); x++)
-                if (EnumerateValues(field, new Point(x, 0), new Size(0, 1)).All(v => v == mark))
-                    return true;
-
+            if (field[0] == mark && field[4] == mark && field[8] == mark) return true;
+            if (field[2] == mark && field[4] == mark && field[6] == mark) return true;
             return false;
         }
 
-        public static bool DiagonalWinSequence(Mark[,] field, Mark mark)
-        {
-            return EnumerateValues(field, Point.Empty, new Size(1, 1)).All(v => v == mark) ||
-                EnumerateValues(field, new Point(field.GetLength(1) - 1, 0), new Size(-1, 1)).All(v => v == mark);
-        }
-
-        public static bool HasWinSequence(Mark[,] field, Mark mark)
+        public bool HasWinSequence(Dictionary<int, char> field, char mark)
         {
             return (RowWinSequence(field, mark)
                 || ColumnWinSequence(field, mark)
                 || DiagonalWinSequence(field, mark));
         }
 
-        public static GameResult GetGameResult(Mark[,] field)
+        public GameResult GetGameResult(Dictionary<int, char> field)
         {
-            if (HasWinSequence(field, Mark.Circle)) return GameResult.CircleWin;
-            else if (HasWinSequence(field, Mark.Cross)) return GameResult.CrossWin;
+            if (HasWinSequence(field, 'O')) return GameResult.CircleWin;
+            else if (HasWinSequence(field, 'X')) return GameResult.CrossWin;
             return GameResult.Draw;
         }
 

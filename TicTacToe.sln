@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe", "TicTacToe\TicTacToe.csproj", "{489AE373-CB67-4283-9D25-1D709858A483}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe", "TicTacToe\TicTacToe.csproj", "{489AE373-CB67-4283-9D25-1D709858A483}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.Engine", "TicTacToe.Engine\TicTacToe.Engine.csproj", "{148C5AA1-DC96-4FA9-9869-4E8E8319AC14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe.Engine", "TicTacToe.Engine\TicTacToe.Engine.csproj", "{148C5AA1-DC96-4FA9-9869-4E8E8319AC14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToeTests", "TicTacToeTests\TicTacToeTests.csproj", "{B9D0DB90-E609-4069-915C-25A282831DF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{148C5AA1-DC96-4FA9-9869-4E8E8319AC14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{148C5AA1-DC96-4FA9-9869-4E8E8319AC14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{148C5AA1-DC96-4FA9-9869-4E8E8319AC14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9D0DB90-E609-4069-915C-25A282831DF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9D0DB90-E609-4069-915C-25A282831DF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9D0DB90-E609-4069-915C-25A282831DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9D0DB90-E609-4069-915C-25A282831DF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

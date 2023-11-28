@@ -10,5 +10,8 @@
         /// <param name="oPlayer"></param>
         /// <returns></returns>
         public string HwoIsWinner(Dictionary<int,char> field, string xPlayer, string oPlayer);
+        public bool RowWinSequence(Dictionary<int, char> field, char mark);
+        public bool ColumnWinSequence(Dictionary<int, char> field, char mark);
+        public bool DiagonalWinSequence(Dictionary<int, char> field, char mark);
     }
 }

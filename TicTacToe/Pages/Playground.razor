@@ -19,7 +19,7 @@
             <button class="button-option" @onclick="@(() => BtnOnClick(7))">@Fields[7]</button>
             <button class="button-option" @onclick="@(() => BtnOnClick(8))">@Fields[8]</button>
         </div>
-        <button id="restart">Restart</button>
+        <button id="restart">@Restart</button>
     </div>
     <div>
         
@@ -33,6 +33,7 @@
 @code {
     private Dictionary<int, char> Fields { get; set; }
     private string Winner { get; set; } = "";
+    private string Restart { get; set; } = "";
 
     protected override Task OnInitializedAsync()
     {
@@ -47,15 +48,17 @@
 
     void BtnOnClick(int index)
     {
-        if (Fields is null) return;
+        if (Fields is null || Winner == "Player" || Winner == "Computer") return;
 
         if (Fields[index] == ' ') Fields[index] = 'X';
 
         Fields = rival.MakeMove(Fields);
 
+        Restart = gameService.HwoIsWinner(Fields, "Player", "Computer");
+
         if(rival.CountEmptyFields(Fields) == 0)
         {
-            gameService.HwoIsWinner(Fields, "Player", "Computer");
+            Winner = gameService.HwoIsWinner(Fields, "Player", "Computer");
         }
     }
 }
