@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TicTacToe.Engine.Services
+﻿namespace TicTacToe.Engine.Services
 {
     public class GameService : IGameService
     {
@@ -23,9 +16,9 @@ namespace TicTacToe.Engine.Services
             switch (winner)
             {
                 case GameResult.CrossWin:
-                    return $"{xPlayer} win";
+                    return $"{xPlayer}";
                 case GameResult.CircleWin:
-                    return $"{oPlayer} win";
+                    return $"{oPlayer}";
                 case GameResult.Draw:
                     return $"Draw";
             }
@@ -107,8 +100,6 @@ namespace TicTacToe.Engine.Services
             else if (HasWinSequence(field, 'X')) return GameResult.CrossWin;
             return GameResult.Draw;
         }
-
-        public enum Mark { Cross, Circle, Empty }
         public enum GameResult { CrossWin, CircleWin, Draw }
     }
 }

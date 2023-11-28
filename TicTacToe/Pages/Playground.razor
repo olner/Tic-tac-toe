@@ -19,7 +19,7 @@
             <button class="button-option" @onclick="@(() => BtnOnClick(7))">@Fields[7]</button>
             <button class="button-option" @onclick="@(() => BtnOnClick(8))">@Fields[8]</button>
         </div>
-        <button id="restart">@Restart</button>
+        <button id="restart">Restart</button>
     </div>
     <div>
         
@@ -33,7 +33,9 @@
 @code {
     private Dictionary<int, char> Fields { get; set; }
     private string Winner { get; set; } = "";
-    private string Restart { get; set; } = "";
+    private GameStatus CurrentGameStatus { get; set; } = GameStatus.Continues;
+
+    public enum GameStatus { Continues, Ended }
 
     protected override Task OnInitializedAsync()
     {
@@ -48,17 +50,21 @@
 
     void BtnOnClick(int index)
     {
-        if (Fields is null || Winner == "Player" || Winner == "Computer") return;
+        if (Fields is null) throw new NullReferenceException("Field is null exception");
 
-        if (Fields[index] == ' ') Fields[index] = 'X';
+        var tmpFields = new Dictionary<int, char>(Fields);
 
-        Fields = rival.MakeMove(Fields);
+        if (Fields[index] == ' ' && CurrentGameStatus == GameStatus.Continues) Fields[index] = 'X';
+        CheckWinner();
 
-        Restart = gameService.HwoIsWinner(Fields, "Player", "Computer");
+        if (CurrentGameStatus == GameStatus.Continues & 
+            (Fields.Where(x => x.Value == 'X').Count() > Fields.Where(x => x.Value == 'O').Count())) rival.MakeMove(Fields);
+        CheckWinner();
+    }
+    private void CheckWinner()
+    {
+        Winner = gameService.HwoIsWinner(Fields, "Player", "Computer");
 
-        if(rival.CountEmptyFields(Fields) == 0)
-        {
-            Winner = gameService.HwoIsWinner(Fields, "Player", "Computer");
-        }
+        if (Winner == "Player" || Winner == "Computer" || rival.CountEmptyFields(Fields) == 0) CurrentGameStatus = GameStatus.Ended;
     }
 }
