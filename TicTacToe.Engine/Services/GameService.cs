@@ -36,6 +36,7 @@
                     markCount++;
                     continue;
                 }
+                if (i == 0) continue;
 
                 if (field[i - 1] != field[i]) markCount = 1;
                 else if (field[i] != ' ') markCount++;
