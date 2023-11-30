@@ -4,12 +4,6 @@
     {
         public string HwoIsWinner(Dictionary<int, char> field, string xPlayer, string oPlayer)
         {
-            /*string stringField = "";
-            for (int i = 0; i < field.Count; i++)
-            {
-                stringField += field[i];
-                if (i % 3 == 0) stringField += " ";
-            }*/
 
             var winner = GetGameResult(field);
 
