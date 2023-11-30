@@ -54,7 +54,6 @@
 
         if (Field[index] == ' ' && CurrentGameStatus == GameStatus.Continues) Field[index] = 'X';
         CheckWinner();
-
         if (CurrentGameStatus == GameStatus.Continues &
             (Field.Where(x => x.Value == 'X').Count() > Field.Where(x => x.Value == 'O').Count())) rival.MakeMove(Field);
         CheckWinner();

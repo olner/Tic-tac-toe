@@ -4,12 +4,12 @@
     {
         public string HwoIsWinner(Dictionary<int, char> field, string xPlayer, string oPlayer)
         {
-            string stringField = "";
+            /*string stringField = "";
             for (int i = 0; i < field.Count; i++)
             {
                 stringField += field[i];
                 if (i % 3 == 0) stringField += " ";
-            }
+            }*/
 
             var winner = GetGameResult(field);
 
@@ -29,7 +29,7 @@
         public bool RowWinSequence(Dictionary<int, char> field, char mark)
         {
             var markCount = 0;
-            for (int i = 0; i < field.Count; i++)
+            for (int i = 0; i < field.Count - 1; i++)
             {
                 if (i == 0 & field[0] != ' ')
                 {

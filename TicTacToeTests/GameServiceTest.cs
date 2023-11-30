@@ -5,6 +5,30 @@ namespace TicTacToeTests
     public class GameServiceTest
     {
         [Fact]
+        public void HwoISWinnerTest()
+        {
+            //Arrange
+            GameService gameService = new GameService();
+            var field = new Dictionary<int, char>()
+            {
+                { 0, 'X'},
+                { 1, ' '},
+                { 2, ' '},
+
+                { 3, 'X'},
+                { 4, 'O'},
+                { 5, ' '},
+
+                { 6, 'O'},
+                { 7, 'X'},
+                { 8, ' '}
+            };
+            //Act
+            var result = gameService.HwoIsWinner(field, "Player", "Computer");
+            //Assert
+            Assert.Equal("Draw", result);
+        }
+        [Fact]
         public void RowWinSequenceIsTrue()
         {
             //Arrange
