@@ -58,31 +58,37 @@ namespace TicTacToe.Engine.Services
 
             if (rowTurn != -1)
             {
+                Console.WriteLine("RowTurn " + rowTurn);
                 field[rowTurn] = 'O';
                 return field;
             }
             if(inversrRowTurn != -1)
             {
+                Console.WriteLine("InverseRowTurn " + inversrRowTurn);
                 field[inversrRowTurn] = 'O';
                 return field;
             }
             if (columnTurn != -1)
             {
+                Console.WriteLine("ColumnTurn " + columnTurn);
                 field[columnTurn] = 'O';
                 return field;
             }
             if(inverseColumnTurn != -1)
             {
+                Console.WriteLine("InverseColumnTurn " + inverseColumnTurn);
                 field[inverseColumnTurn] = 'O';
                 return field;
             }
             if(diagonalTurn != -1)
             {
+                Console.WriteLine("DiagonalTurn " + diagonalTurn);
                 field[diagonalTurn] = 'O';
                 return field;
             }
             if(additionalTurn != -1)
             {
+                Console.WriteLine("AdditionalTurn " + additionalTurn);
                 field[additionalTurn] = 'O';
                 return field;
             }
@@ -269,13 +275,18 @@ namespace TicTacToe.Engine.Services
         }
         private int AdditionalRowAndCollumnWinSequence(Dictionary<int, char> field)
         {
-            if (field[0] == field[2] && field[1] == ' ') return 1;
-            if (field[3] == field[5] && field[4] == ' ') return 4;
-            if (field[6] == field[8] && field[7] == ' ') return 7;
+            if (field[0] == field[2] & field[2] != ' ' && field[1] == ' ') return 1;
+            if (field[3] == field[5] & field[5] != ' ' && field[4] == ' ') return 4;
+            if (field[6] == field[8] & field[8] != ' ' && field[7] == ' ') return 7;
 
-            if (field[0] == field[6] && field[3] == ' ') return 3;
-            if (field[1] == field[7] && field[4] == ' ') return 4;
-            if (field[2] == field[8] && field[5] == ' ') return 5;
+            if (field[0] == field[6] & field[6] != ' ' && field[3] == ' ') return 3;
+            if (field[1] == field[7] & field[7] != ' ' && field[4] == ' ') return 4;
+            if (field[2] == field[8] & field[8] != ' ' && field[5] == ' ') return 5;
+
+            if (field[1] == field[3] & field[3] != ' ' && field[0] == ' ') return 0;
+            if (field[3] == field[7] & field[7] != ' ' && field[6] == ' ') return 6;
+            if (field[7] == field[5] & field[5] != ' ' && field[8] == ' ') return 8;
+            if (field[5] == field[1] & field[1] != ' ' && field[2] == ' ') return 2;
 
             return -1;
         }
