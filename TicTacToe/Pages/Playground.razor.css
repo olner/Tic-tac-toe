@@ -12,6 +12,9 @@ h2 {
 body {
     height: 100vh;
     background: linear-gradient(135deg, #8052ec, #d161ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 html {
@@ -19,10 +22,9 @@ html {
 }
 
 .wrapper {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: 5%;
 }
 
